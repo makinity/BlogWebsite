@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Chat</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+    h2 { margin-bottom: 10px; }
+    #messages { border: 1px solid #ccc; height: 300px; overflow-y: scroll; margin-bottom: 10px; padding: 10px; background: #fff; }
+    #chatForm { display: flex; gap: 5px; }
+    #chatForm input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    #chatForm button { padding: 8px 15px; border: none; border-radius: 4px; background: #039be5; color: #fff; cursor: pointer; }
+    #chatForm button:hover { background: #0288d1; }
+  </style>
+</head>
+<body>
+  <h2>Community Chat</h2>
+  <div id="messages"></div>
+  <form id="chatForm">
+    <input id="messageInput" type="text" placeholder="Type a message..." />
+    <button type="submit">Send</button>
+  </form>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "[REDACTED_API_KEY]",
+      authDomain: "blogmanagementsystem-17d50.firebaseapp.com",
+      projectId: "blogmanagementsystem-17d50",
+      storageBucket: "blogmanagementsystem-17d50.appspot.com",
+      messagingSenderId: "93548787855",
+      appId: "1:93548787855:web:fa16fa23f97dbeffdd98fa"
+    };
+
+    // Init Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const messagesDiv = document.getElementById("messages");
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("messageInput");
+
+    // Listen for messages
+    const q = query(collection(db, "chats"), orderBy("timestamp"));
+    onSnapshot(q, (snapshot) => {
+      messagesDiv.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const msg = doc.data();
+        messagesDiv.innerHTML += `<p><strong>${msg.user || "Anon"}:</strong> ${msg.text}</p>`;
+      });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
+    // Send message
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (input.value.trim()) {
+        await addDoc(collection(db, "chats"), {
+          text: input.value,
+          user: "Guest", // replace with Laravel user later
+          timestamp: new Date()
+        });
+        input.value = "";
+      }
+    });
+  </script>
+</body>
+</html>
