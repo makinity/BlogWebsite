@@ -7,8 +7,6 @@
 
                 @if($user->profile && $user->profile->profile)
                     @php
-                        // The user->profile relationship might be null, OR the profile column might be null.
-                        // Use optional() for safety and the null coalescing operator (??) for the default path.
                         $profilePath = optional($user->profile)->profile ?? 'profiles/default.jpg';
                     @endphp
 
