@@ -7,11 +7,11 @@
 
                 @if($user->profile && $user->profile->profile)
                     @php
-                        $profilePath = optional($user->profile)->profile ?? 'profiles/default.jpg';
+                        $profilePath = optional($user->profile)->profile ?? 'default.jpg';
                     @endphp
 
                     <div class="d-flex justify-content-center mb-4">
-                        <img src="{{ asset('storage/' . $profilePath) }}" 
+                        <img src="{{ asset('storage/profiles/' . $profilePath) }}" 
                             alt="{{ $user->name }}'s Profile Picture" 
                             class="rounded-circle border border-info" 
                             style="width: 150px; height: 150px; object-fit: cover;">

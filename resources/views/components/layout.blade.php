@@ -99,13 +99,15 @@
                             </a>
                         </li>
 
-                        <!-- Profile Picture and Name -->
+                        @php
+                            $profilePath = optional(auth()->user()->profile)->profile ?? 'default.jpg';
+                        @endphp
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('storage/' . auth()->user()->profile->profile) }}"
-                                    alt="{{ auth()->user()->name }}'s Profile Picture"
-                                    class="rounded-circle border border-info me-2"
-                                    style="width: 35px; height: 35px; object-fit: cover;">
+                                <img src="{{ asset('storage/profiles/' .  $profilePath) }}"
+                                alt="{{ auth()->user()->name }}'s Profile Picture"
+                                class="rounded-circle border border-info me-2"
+                                style="width: 35px; height: 35px; object-fit: cover;">
                                 <span>{{ auth()->user()->name }}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="userDropdown">

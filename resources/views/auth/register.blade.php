@@ -6,7 +6,7 @@
             @csrf
             <div class="mb-3">
                 <label for="profile" class="form-label">Attach Profile Picture</label>
-                <input type="file" name="profile" id="profile" value="{{ old('profile') }}" class="form-control" required>
+                <input type="file" name="profile" id="profile" class="form-control">
             </div>
 
             <!-- Username -->
@@ -23,7 +23,7 @@
 
             <div class="mb-3">
                 <label for="bio" class="form-label">Add a short Bio</label>
-                <input type="text" name="bio" id="bio" value="{{ old('bio') }}" class="form-control" required>
+                <input type="text" name="bio" id="bio" value="{{ old('bio') }}" class="form-control">
             </div>
 
             <!-- Password -->

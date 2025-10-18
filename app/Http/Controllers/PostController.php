@@ -12,7 +12,6 @@ class PostController extends Controller
 
     public function homepage(){
         $posts = Post::orderBy('created_at', 'desc')->paginate(8);
-
         return view('blog.index', ['posts' => $posts]);
     }
 

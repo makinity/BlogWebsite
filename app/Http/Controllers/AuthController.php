@@ -43,8 +43,8 @@ class AuthController extends Controller
     {
         try {
             $validated = $request->validate([
-                'profile' => 'required|mimes:jpg,jpeg,png|max:2048',
-                'bio' => 'required|string|max:255',
+                'profile' => 'mimes:jpg,jpeg,png|max:2048',
+                'bio' => 'string|max:255',
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|string|confirmed',
@@ -56,7 +56,11 @@ class AuthController extends Controller
                 'password' => bcrypt($validated['password']),
             ]);
 
-            $profilePath = $request->file('profile')->store('profiles', 'public');
+             if ($request->hasFile('profile')) {
+                $profilePath = $request->file('profile')->store('profiles', 'public');
+            } else {
+                $profilePath = 'default.jpg';
+            }
 
             Profile::create([
                 'user_id' => $user->id,
